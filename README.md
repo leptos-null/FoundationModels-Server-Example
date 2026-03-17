@@ -173,13 +173,11 @@ The section below contains the payload sent for the request above (from testing 
 
 </details>
 
-## Testing notes
+### Function calling
 
-### Function calling with Gemini
+Function calling (also called "tool calling") is exposed by FoundationModels via the [`Tool`](<https://developer.apple.com/documentation/foundationmodels/tool>) API. The framework automatically calls [`call(arguments:)`](<https://developer.apple.com/documentation/foundationmodels/tool/call(arguments:)>) on the `Tool` when requested and provides the response back to the model.
 
-In my testing on macOS 26.3, function calling did not work using this API as the client and Gemini as the server.
-
-Here's the code I tried:
+I tested tool calling with the following code:
 
 ```swift
 // based on <https://ai.google.dev/gemini-api/docs/openai#function-calling>
@@ -223,7 +221,15 @@ let languageModelSession = LanguageModelSession(model: model, tools: tools)
 let response = try await languageModelSession.respond(to: "What's the weather like in Chicago today?")
 ```
 
-This produced the following error:
+## Testing notes
+
+### Function calling with Gemini
+
+In my testing on macOS 26.3, function calling did not work using this API as the client and Gemini as the server.
+
+I tested this using the same code as in the "Function calling" section above.
+
+The code produced the following error:
 
 ```swift
 DecodingError.keyNotFound(
